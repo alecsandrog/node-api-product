@@ -1,10 +1,16 @@
-import { User } from "../entities/User";
-import { UserRepository } from "../repositories/UserRepository";
+import { inject, injectable } from "tsyringe";
 
+import { User } from "../entities/User";
+import { IUsersRepository } from "../repositories/IUsersRepository";
+
+@injectable()
 class ShowUserService {
+  constructor(
+    @inject("UsersRepository")
+    private repository: IUsersRepository
+  ) {}
   async execute(id: string): Promise<User> {
-    const repository = new UserRepository();
-    const user = await repository.findOne(id);
+    const user = await this.repository.findOne(id);
     return user;
   }
 }

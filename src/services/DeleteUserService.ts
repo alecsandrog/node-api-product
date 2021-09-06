@@ -1,15 +1,21 @@
+import { inject, injectable } from "tsyringe";
+
 import { AppError } from "../errors/AppError";
-import { UserRepository } from "../repositories/UserRepository";
+import { IUsersRepository } from "../repositories/IUsersRepository";
 
+@injectable()
 class DeleteUserService {
-  async execute(id: string): Promise<void> {
-    const repository = new UserRepository();
+  constructor(
+    @inject("UsersRepository")
+    private repository: IUsersRepository
+  ) {}
 
-    const userExists = await repository.findOne(id);
+  async execute(id: string): Promise<void> {
+    const userExists = await this.repository.findOne(id);
     if (!userExists) {
       throw new AppError("User don't exists!");
     }
-    await repository.remove(id);
+    await this.repository.remove(id);
   }
 }
 

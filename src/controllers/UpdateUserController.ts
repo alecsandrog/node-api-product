@@ -1,4 +1,5 @@
 import { Request, Response } from "express";
+import { container } from "tsyringe";
 
 import { UpdateUserService } from "../services/UpdateUserService";
 
@@ -7,7 +8,7 @@ class UpdateUserController {
     const { id } = req.params;
     const { email, password } = req.body;
 
-    const updateUserService = new UpdateUserService();
+    const updateUserService = container.resolve(UpdateUserService);
     const user = await updateUserService.execute({ email, password }, id);
 
     return res.status(201).json(user);

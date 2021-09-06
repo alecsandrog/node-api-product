@@ -1,22 +1,26 @@
 import { hash } from "bcrypt";
+import { inject, injectable } from "tsyringe";
 
 import { User } from "../entities/User";
 import { AppError } from "../errors/AppError";
-import { UserRepository } from "../repositories/UserRepository";
+import { IUsersRepository } from "../repositories/IUsersRepository";
 
 interface IUserRequest {
   email: string;
   password: string;
 }
+@injectable()
 class CreateUserService {
+  constructor(
+    @inject("UsersRepository")
+    private repository: IUsersRepository
+  ) {}
   async execute({ email, password }: IUserRequest): Promise<User> {
-    const repository = new UserRepository();
-
     if (!email) {
       throw new AppError("Email incorrect!");
     }
 
-    const userAlreadyExists = await repository.findByEmail(email);
+    const userAlreadyExists = await this.repository.findByEmail(email);
 
     if (userAlreadyExists) {
       throw new AppError("User already exists!");
@@ -28,9 +32,9 @@ class CreateUserService {
     user.email = email;
     user.password = passwordHash;
 
-    repository.create(user);
+    this.repository.create(user);
 
-    const result = await repository.findByEmail(email);
+    const result = await this.repository.findByEmail(email);
     return result;
   }
 }
