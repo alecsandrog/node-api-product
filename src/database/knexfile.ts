@@ -1,20 +1,13 @@
-import dotenv from "dotenv";
-import { Knex } from "knex";
+import { env } from "../helpers";
 
-dotenv.config({ path: "../../.env" });
-
-interface IKnexConfig {
-  [key: string]: Knex.Config;
-}
-
-const configs: IKnexConfig = {
+const configs = {
   development: {
-    client: process.env.DB_CLIENT || "pg",
+    client: env("DB_CLIENT"),
     connection: {
-      database: process.env.DB_NAME,
-      user: process.env.DB_USER,
-      password: process.env.DB_PASS,
-      port: Number(process.env.DB_PORT),
+      database: env("DB_NAME"),
+      user: env("DB_USER"),
+      password: env("DB_PASS"),
+      port: env("DB_PORT"),
     },
     debug: true,
     migrations: {
@@ -60,6 +53,12 @@ const configs: IKnexConfig = {
       tableName: "knex_migrations",
     },
   },
+  onUpdateTrigger: (table) => `
+  CREATE TRIGGER ${table}_updated_at
+  BEFORE UPDATE ON ${table}
+  FOR EACH ROW
+  EXECUTE PROCEDURE on_update_timestamp();
+  `,
 };
 
 export default configs;
