@@ -32,7 +32,7 @@ class CreateUserService {
     user.email = email;
     user.password = passwordHash;
 
-    this.repository.create(user);
+    await this.repository.create(user);
 
     const result = await this.repository.findByEmail(email);
     return result;

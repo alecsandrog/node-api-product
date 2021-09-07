@@ -1,5 +1,7 @@
 import { container } from "tsyringe";
 
+import { CustomersRepository } from "../repositories/CustomersRepository";
+import { ICustomersRepository } from "../repositories/ICustomersRepository";
 import { IProductsRepository } from "../repositories/IProductsRepository";
 import { IUsersRepository } from "../repositories/IUsersRepository";
 import { ProductsRepository } from "../repositories/ProductsRepository";
@@ -13,4 +15,9 @@ container.registerSingleton<IUsersRepository>(
 container.registerSingleton<IProductsRepository>(
   "ProductsRepository",
   ProductsRepository
+);
+
+container.registerSingleton<ICustomersRepository>(
+  "CustomersRepository",
+  CustomersRepository
 );
