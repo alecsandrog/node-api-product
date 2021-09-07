@@ -9,7 +9,6 @@ class UsersRepository extends BaseRepository<User> implements IUsersRepository {
   }
 
   async findByEmail(email: string): Promise<User> {
-    console.log(email);
     const result = await this.db(this.tableName).where({ email }).first();
     return result;
   }

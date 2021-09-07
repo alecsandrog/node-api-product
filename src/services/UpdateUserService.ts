@@ -25,8 +25,8 @@ class UpdateUserService {
     user.email = email;
     user.password = password;
 
-    this.repository.update(id, user);
-    const result = this.repository.findByEmail(email);
+    await this.repository.update(id, user);
+    const result = await this.repository.findByEmail(email);
     return result;
   }
 }

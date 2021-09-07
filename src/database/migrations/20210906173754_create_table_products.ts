@@ -8,8 +8,8 @@ export async function up(knex: Knex): Promise<void> {
       table.increments("id");
       table.string("title").notNullable();
       table.text("description");
-      table.decimal("price");
-      table.string("slug");
+      table.decimal("price").notNullable();
+      table.string("slug").notNullable().unique();
       table.timestamp("created_at").defaultTo(knex.fn.now());
       table.timestamp("updated_at").defaultTo(knex.fn.now());
     })
