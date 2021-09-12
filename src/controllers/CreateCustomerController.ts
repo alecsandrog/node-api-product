@@ -16,21 +16,25 @@ class CreateCustomerController {
       district,
       city,
       state,
+      idProduct,
     } = req.body;
 
     const createCustomerService = container.resolve(CreateCustomerService);
-    const customer = await createCustomerService.execute({
-      name,
-      email,
-      cpf,
-      phone,
-      cep,
-      street,
-      number,
-      district,
-      city,
-      state,
-    });
+    const customer = await createCustomerService.execute(
+      {
+        name,
+        email,
+        cpf,
+        phone,
+        cep,
+        street,
+        number,
+        district,
+        city,
+        state,
+      },
+      idProduct
+    );
     return res.status(201).send(customer);
   }
 }

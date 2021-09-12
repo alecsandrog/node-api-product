@@ -15,6 +15,24 @@ class CustomersRepository
     const result = await this.db(this.tableName).where({ cpf }).first();
     return result;
   }
+
+  async createCustomerWithSale(
+    item: Customer,
+    idProduct: string
+  ): Promise<string> {
+    let idCustomer = "";
+    await this.db(this.tableName)
+      .insert(item)
+      .returning("id")
+      .then(async ([id]) => {
+        await this.db("sales").insert({
+          customer_id: id,
+          product_id: idProduct,
+        });
+        idCustomer = id;
+      });
+    return idCustomer;
+  }
 }
 
 export { CustomersRepository };

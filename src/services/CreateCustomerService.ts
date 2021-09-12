@@ -22,18 +22,21 @@ class CreateCustomerService {
   constructor(
     @inject("CustomersRepository") private repository: ICustomersRepository
   ) {}
-  async execute({
-    name,
-    email,
-    cpf,
-    phone,
-    cep,
-    street,
-    number,
-    district,
-    city,
-    state,
-  }: IRequestCustomer): Promise<Customer> {
+  async execute(
+    {
+      name,
+      email,
+      cpf,
+      phone,
+      cep,
+      street,
+      number,
+      district,
+      city,
+      state,
+    }: IRequestCustomer,
+    idProduct: string
+  ): Promise<Customer> {
     if (!cpf) {
       throw new AppError("CPF empty!");
     }
@@ -49,9 +52,12 @@ class CreateCustomerService {
     customer.city = city;
     customer.state = state;
 
-    await this.repository.create(customer);
+    const idCustomer = await this.repository.createCustomerWithSale(
+      customer,
+      idProduct
+    );
 
-    const result = await this.repository.findByCpf(cpf);
+    const result = await this.repository.findOne(idCustomer);
     return result;
   }
 }

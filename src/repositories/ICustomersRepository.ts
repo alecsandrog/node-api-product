@@ -12,6 +12,8 @@ interface ICustomersRepository {
   remove(id: string): Promise<boolean>;
 
   findByCpf(cpf: string): Promise<Customer>;
+
+  createCustomerWithSale(item: Customer, idProduct: string): Promise<string>;
 }
 
 export { ICustomersRepository };
