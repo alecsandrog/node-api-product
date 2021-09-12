@@ -7,6 +7,6 @@ import { usersRoutes } from "./users.routes";
 const router = Router();
 router.use("/users", usersRoutes);
 router.use("/products", productsRoutes);
-router.use("/customers/pay", customersRoutes);
+router.use("/customers", customersRoutes);
 
 export { router };

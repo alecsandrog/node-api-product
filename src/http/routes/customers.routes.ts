@@ -9,6 +9,6 @@ const listCustomersController = new ListCustomersController();
 
 customersRoutes
   .get("/", listCustomersController.handle)
-  .post("/", createCustomerController.handle);
+  .post("/pay", createCustomerController.handle);
 
 export { customersRoutes };

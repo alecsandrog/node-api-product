@@ -1,3 +1,4 @@
+import { Customer } from "../entities/Customer";
 import { Product } from "../entities/Product";
 
 interface IProductsRepository {
@@ -12,6 +13,8 @@ interface IProductsRepository {
   remove(id: string): Promise<boolean>;
 
   findBySlug(slug: string): Promise<Product>;
+
+  listCustomers(idProduct: string): Promise<Customer[]>;
 }
 
 export { IProductsRepository };
