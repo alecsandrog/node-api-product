@@ -5,7 +5,7 @@ import configs from "../knexfile";
 export async function up(knex: Knex): Promise<void> {
   return knex.schema
     .createTable("products", (table) => {
-      table.increments("id");
+      table.increments("id").primary();
       table.string("title").notNullable();
       table.text("description");
       table.decimal("price").notNullable();
